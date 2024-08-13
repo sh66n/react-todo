@@ -11,50 +11,56 @@ mongoose
     console.log(e);
   });
 const bodyParser = require("body-parser");
+const cors = require("cors");
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
 
 const Todo = require("./models/todos");
-const List = require("./models/todoLists");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors(corsOptions));
 
-app.get("/api/lists", async (req, res) => {
-  const lists = await List.find({});
-  res.json(lists);
+app.get("/api/todos", async (req, res) => {
+  const todos = await Todo.find({});
+  res.send(todos);
 });
 
-app.post("/api/lists/new", async (req, res) => {
-  const newList = await List.create(req.body);
-  res.status(200).json({
-    newList,
+app.post("/api/todos", async (req, res) => {
+  const newTodo = await Todo.create(req.body);
+  res.json({
+    newTodo,
   });
 });
 
-app.get("/api/lists/:id", async (req, res) => {
+app.get("/api/todos/:id", async (req, res) => {
   const { id } = req.params;
-  const foundList = await List.findById(id);
-  res.status(200).json({
-    foundList,
+  const requestedTodo = await Todo.findById(id);
+  res.json({
+    requestedTodo,
   });
 });
 
-app.patch("/api/lists/:id/edit", async (req, res) => {
+app.patch("/api/todos/:id", async (req, res) => {
   const { id } = req.params;
-  const updatedList = await List.findByIdAndUpdate(id, req.body, {
+  const updatedTodo = await Todo.findByIdAndUpdate(id, req.body, {
     new: true,
   });
   res.json({
-    updatedList,
+    updatedTodo,
   });
 });
 
-app.delete("/api/lists/:id", async (req, res) => {
+app.delete("/api/todos/:id", async (req, res) => {
   const { id } = req.params;
-  const deletedList = await List.findByIdAndDelete(id, {
+  const deletedTodo = await Todo.findByIdAndDelete(id, {
     new: true,
   });
   res.json({
-    deletedList,
+    deletedTodo,
   });
 });
 
