@@ -31,9 +31,7 @@ app.get("/api/todos", async (req, res) => {
 
 app.post("/api/todos", async (req, res) => {
   const newTodo = await Todo.create(req.body);
-  res.json({
-    newTodo,
-  });
+  res.send(newTodo);
 });
 
 app.get("/api/todos/:id", async (req, res) => {
