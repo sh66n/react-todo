@@ -13,11 +13,10 @@ export default function TodoForm({ addTodo }) {
   } = useForm();
 
   const onSubmit = async (data) => {
+    console.log("making reqs");
     reset();
     data.isCompleted = false;
     addTodo(data);
-    const response = await axios.post(`${BASE_URL}/todos`, data);
-    console.log(response);
   };
 
   return (

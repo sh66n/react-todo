@@ -1,19 +1,16 @@
 import React from "react";
 import "../styles/Todo.css";
 
-export default function Todo({ task, isCompleted }) {
-  const handleDoubleClick = () => {
-    console.log("double click");
-  };
+export default function Todo({ task, isCompleted, onDoubleClick }) {
   return (
     <div
       className="Todo"
       style={{ color: isCompleted ? "green" : "red" }}
-      onDoubleClick={handleDoubleClick}
+      onDoubleClick={onDoubleClick}
     >
       {task}
 
-      <button>Edit</button>
+      {/* <button>Edit</button> */}
     </div>
   );
 }

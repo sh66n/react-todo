@@ -1,0 +1,4 @@
+.Todo:hover {
+  cursor: pointer;
+  user-select: none;
+}
