@@ -60,7 +60,11 @@ export default function TodoList() {
   };
 
   return (
-    <div className="TodoList">
+    <div className="flex flex-col items-center justify-center">
+      <h1 className="text-5xl font-bold font-mono mb-5 text-white">
+        Get it done
+      </h1>
+      <TodoForm addTodo={addTodo} />
       {todos.map((todo) => (
         <Todo
           key={todo._id}
@@ -76,8 +80,6 @@ export default function TodoList() {
           todoId={todo._id}
         />
       ))}
-      <button>Reset</button>
-      <TodoForm addTodo={addTodo} />
     </div>
   );
 }

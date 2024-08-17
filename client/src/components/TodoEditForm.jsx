@@ -24,12 +24,16 @@ export default function TodoEditForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex items-center justify-center"
+    >
       <input
         defaultValue={todoText}
         {...register("task", { required: true })}
         autoFocus
         onFocus={handleFocus}
+        className="rounded-full p-1 mx-3 w-fit"
       />
       <input type="submit" hidden />
     </form>

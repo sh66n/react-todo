@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
-
-const BASE_URL = "http://localhost:3000/api";
+import { PrimaryButton } from "./Button";
 
 export default function TodoForm({ addTodo }) {
   const {
@@ -19,14 +17,18 @@ export default function TodoForm({ addTodo }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="TodoForm">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex items-center justify-center bg-slate-500 px-1 w-auto rounded-full mb-3"
+    >
       <input
         type="text"
         {...register("task", { required: true })}
         placeholder="Task"
+        className="rounded-full p-1 mx-3"
       />
       {errors.task && <span>This field is required</span>}
-      <button type="submit">Add Todo</button>
+      <PrimaryButton text={"Add Todo"} isDisabled={false} />
     </form>
   );
 }
