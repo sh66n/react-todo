@@ -1,3 +1,7 @@
+.Todo {
+  display: flex;
+}
+
 .Todo:hover {
   cursor: pointer;
   user-select: none;

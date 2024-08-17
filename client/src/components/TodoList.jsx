@@ -7,6 +7,7 @@ const BASE_URL = "http://localhost:3000/api";
 
 export default function TodoList() {
   const [todos, setTodos] = useState([]);
+
   useEffect(() => {
     const getTodoData = async () => {
       const { data } = await axios.get(`${BASE_URL}/todos`);
@@ -19,6 +20,23 @@ export default function TodoList() {
     const { data } = await axios.post(`${BASE_URL}/todos`, newTodo);
     setTodos((prevTodos) => {
       return [...prevTodos, data];
+    });
+  };
+
+  const deleteTodo = async (id) => {
+    const { data } = await axios.delete(`${BASE_URL}/todos/${id}`);
+    setTodos((prevTodos) => {
+      return prevTodos.filter((todo) => todo._id !== id);
+    });
+  };
+
+  const editTodo = async (id, edits) => {
+    const { data } = await axios.patch(`${BASE_URL}/todos/${id}`, edits);
+    setTodos((prevTodos) => {
+      return prevTodos.map((todo) => {
+        if (todo._id === id) return data.updatedTodo;
+        else return todo;
+      });
     });
   };
 
@@ -42,17 +60,23 @@ export default function TodoList() {
   };
 
   return (
-    <div>
+    <div className="TodoList">
       {todos.map((todo) => (
         <Todo
+          key={todo._id}
           task={todo.task}
           isCompleted={todo.isCompleted}
-          key={todo._id}
           onDoubleClick={() => {
             markAsDone(todo._id);
           }}
+          deleteTodo={() => {
+            deleteTodo(todo._id);
+          }}
+          editTodo={editTodo}
+          todoId={todo._id}
         />
       ))}
+      <button>Reset</button>
       <TodoForm addTodo={addTodo} />
     </div>
   );

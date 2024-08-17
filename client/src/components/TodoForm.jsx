@@ -13,7 +13,6 @@ export default function TodoForm({ addTodo }) {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log("making reqs");
     reset();
     data.isCompleted = false;
     addTodo(data);
