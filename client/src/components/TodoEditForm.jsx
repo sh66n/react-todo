@@ -19,12 +19,17 @@ export default function TodoEditForm({
     toggleView();
   };
 
+  const handleFocus = (e) => {
+    e.target.select();
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <input
         defaultValue={todoText}
         {...register("task", { required: true })}
         autoFocus
+        onFocus={handleFocus}
       />
       <input type="submit" hidden />
     </form>
