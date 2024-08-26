@@ -24,7 +24,12 @@ export default function TodoList() {
   };
 
   const deleteTodo = async (id) => {
-    const { data } = await axios.delete(`${BASE_URL}/todos/${id}`);
+    try {
+      const { data } = await axios.delete(`${BASE_URL}/todos/${id}`, {});
+    } catch (e) {
+      console.log(e.response.data);
+      return;
+    }
     setTodos((prevTodos) => {
       return prevTodos.filter((todo) => todo._id !== id);
     });
