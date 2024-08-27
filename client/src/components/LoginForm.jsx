@@ -17,7 +17,7 @@ export default function LoginForm() {
     const res = await axios.post(`${BASE_URL}/login`, data, {
       withCredentials: true,
     });
-    if (res.status === 200) {
+    if (res.data.token) {
       navigate("/todos");
     }
   };

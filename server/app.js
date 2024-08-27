@@ -49,18 +49,22 @@ const verifyToken = (req, res, next) => {
   if (token) {
     jwt.verify(token, "mysecret", async (err, decodedToken) => {
       if (err) {
+        console.log("Wrong cookie");
         res.json({ status: false });
         return;
       } else {
         const currUser = await User.findById(decodedToken.id);
         if (currUser) {
-          res.json({ status: true, currUser });
+          req.user = currUser;
           next();
-        } else res.json({ status: false });
-        return;
+        } else {
+          res.json({ status: false });
+          return;
+        }
       }
     });
   } else {
+    console.log("no cookie");
     res.json({ status: false });
     return;
   }
@@ -72,12 +76,19 @@ app.get("/api/todos", async (req, res) => {
   res.send(todos);
 });
 
+app.get("/api/users/:id", verifyToken, async (req, res) => {
+  res.send(req.user);
+});
+
+app.post("/api/check", verifyToken, (req, res) => {
+  res.send(req.user);
+});
+
 app.post("/api/todos", verifyToken, async (req, res) => {
+  console.log("here ");
   const newTodo = await Todo.create(req.body);
   res.send(newTodo);
 });
-
-app.post("/api/check", verifyToken);
 
 app.post("/api/users", async (req, res) => {
   try {
