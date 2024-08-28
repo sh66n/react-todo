@@ -72,8 +72,30 @@ const verifyToken = (req, res, next) => {
 
 //server side routing
 app.get("/api/todos", async (req, res) => {
-  const todos = await Todo.find({});
-  res.send(todos);
+  const token = req.cookies.jwt;
+  if (token) {
+    jwt.verify(token, "mysecret", async (err, decodedToken) => {
+      if (err) {
+        console.log("Wrong cookie");
+        res.json({ status: false });
+        return;
+      } else {
+        const currUser = await User.findById(decodedToken.id);
+        if (currUser) {
+          req.user = currUser;
+          const todos = await Todo.find({ userId: req.user._id });
+          res.send(todos);
+        } else {
+          res.json({ status: false });
+          return;
+        }
+      }
+    });
+  } else {
+    console.log("no cookie");
+    res.json({ status: false });
+    return;
+  }
 });
 
 app.get("/api/users/:id", verifyToken, async (req, res) => {
@@ -85,17 +107,17 @@ app.post("/api/check", verifyToken, (req, res) => {
 });
 
 app.post("/api/todos", verifyToken, async (req, res) => {
-  console.log("here ");
+  req.body.userId = req.user._id;
   const newTodo = await Todo.create(req.body);
   res.send(newTodo);
 });
 
 app.post("/api/users", async (req, res) => {
   try {
-    const { email, password: plainPassword } = req.body;
+    const { username, email, password: plainPassword } = req.body;
     const salt = await bcrypt.genSalt(12);
     const hash = await bcrypt.hash(plainPassword, salt);
-    const newUser = await User.create({ email, hash });
+    const newUser = await User.create({ username, email, hash });
     const token = jwt.sign({ id: newUser._id }, "mysecret", {
       expiresIn: 3 * 24 * 60 * 60,
     });

@@ -14,7 +14,9 @@ export default function TodoList() {
 
   useEffect(() => {
     const getTodoData = async () => {
-      const { data } = await axios.get(`${BASE_URL}/todos`);
+      const { data } = await axios.get(`${BASE_URL}/todos`, {
+        withCredentials: true,
+      });
       setTodos(data);
     };
     getTodoData();
@@ -24,7 +26,6 @@ export default function TodoList() {
     const { data } = await axios.post(`${BASE_URL}/todos`, newTodo, {
       withCredentials: true,
     });
-    console.log(data);
     setTodos((prevTodos) => {
       return [...prevTodos, data];
     });
@@ -96,7 +97,8 @@ export default function TodoList() {
           cookies.remove("jwt");
           navigate("/login");
         } else {
-          setUser(data.email);
+          console.log(data);
+          setUser(data.username);
           setUserExists(true);
         }
       }
@@ -110,28 +112,30 @@ export default function TodoList() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mb-auto">
+    <>
       {userExists && <LoggedInAs user={user} />}
-      <h1 className="text-5xl font-bold font-mono mb-5 text-white">
-        Get it done
-      </h1>
-      <TodoForm addTodo={addTodo} />
-      {todos.map((todo) => (
-        <Todo
-          key={todo._id}
-          task={todo.task}
-          isCompleted={todo.isCompleted}
-          onDoubleClick={() => {
-            markAsDone(todo._id);
-          }}
-          deleteTodo={() => {
-            deleteTodo(todo._id);
-          }}
-          editTodo={editTodo}
-          todoId={todo._id}
-        />
-      ))}
-      <PrimaryButton text={"Logout"} onClick={logOut} isDisabled={false} />
-    </div>
+      <div className="flex flex-col items-center justify-center mb-auto">
+        <h1 className="text-5xl font-bold font-mono mb-5 text-white">
+          Get it done
+        </h1>
+        <TodoForm addTodo={addTodo} />
+        {todos.map((todo) => (
+          <Todo
+            key={todo._id}
+            task={todo.task}
+            isCompleted={todo.isCompleted}
+            onDoubleClick={() => {
+              markAsDone(todo._id);
+            }}
+            deleteTodo={() => {
+              deleteTodo(todo._id);
+            }}
+            editTodo={editTodo}
+            todoId={todo._id}
+          />
+        ))}
+        <PrimaryButton text={"Logout"} onClick={logOut} isDisabled={false} />
+      </div>
+    </>
   );
 }

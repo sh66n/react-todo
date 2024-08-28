@@ -22,12 +22,12 @@ export default function SignUpForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register("username", { required: true })} />
+      {errors.username && <span>This field is required</span>}
       <input {...register("email", { required: true })} />
       {errors.email && <span>This field is required</span>}
-
       <input {...register("password", { required: true })} type="password" />
       {errors.password && <span>This field is required</span>}
-
       <input type="submit" />
     </form>
   );
