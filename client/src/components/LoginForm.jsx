@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Input from "./Input";
 
 const BASE_URL = "http://localhost:3000/api";
 
@@ -23,14 +24,53 @@ export default function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("email", { required: true })} />
-      {errors.email && <span>This field is required</span>}
+    <div className="h-auto sm:w-1/2 md:w-1/4 rounded-lg flex flex-col items-center justify-center p-4 backdrop-blur-lg border-2">
+      <h1 className="text-5xl m-4 font-bold text-white font-circular ">
+        Login
+      </h1>
 
-      <input {...register("password", { required: true })} type="password" />
-      {errors.password && <span>This field is required</span>}
-
-      <input type="submit" />
-    </form>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full text-center flex flex-col justify-center items-center"
+      >
+        <div className="w-full flex flex-col justify-center items-center">
+          <input
+            {...register("email", { required: true })}
+            className={
+              "flex m-4 h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-white"
+            }
+            type="text"
+            placeholder="Email"
+          />
+          {errors.email && (
+            <span className="text-white">This field is required</span>
+          )}
+          <input
+            {...register("password", { required: true })}
+            className={
+              "flex m-4 h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-white"
+            }
+            type="password"
+            placeholder="Password"
+          />
+          {errors.password && (
+            <span className="text-white">This field is required</span>
+          )}
+        </div>
+        <span className="font-circular mb-2 text-white">
+          Don't have an account? Sign up{" "}
+          <a href="/signup" className="text-cyan-400 hover:underline">
+            here
+          </a>
+          .
+        </span>
+        <button
+          type="submit"
+          className="w-full p-4 m-2 rounded-full bg-white font-bold opacity-100 hover:opacity-50"
+        >
+          Login
+        </button>
+      </form>
+    </div>
   );
 }

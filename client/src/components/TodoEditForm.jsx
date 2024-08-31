@@ -33,9 +33,11 @@ export default function TodoEditForm({
         {...register("task", { required: true })}
         autoFocus
         onFocus={handleFocus}
-        className="rounded-full p-1 mx-3 w-fit"
+        className="rounded-full p-1 mx-3 w-fit text-black"
       />
+      {errors.task && <span>Todo cannot be empty</span>}
       <input type="submit" hidden />
+      <button type="submit">Edit</button>
     </form>
   );
 }

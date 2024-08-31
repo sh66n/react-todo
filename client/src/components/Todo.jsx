@@ -33,7 +33,12 @@ export default function Todo({
           editTodo={editTodo}
         />
       ) : (
-        <div className={"p-3 m-3 font-bold "} onDoubleClick={onDoubleClick}>
+        <div
+          className={
+            "p-1 m-1 md:p-3 md:m-3 font-bold flex items-center justify-center"
+          }
+          onDoubleClick={onDoubleClick}
+        >
           {task}
         </div>
       )}
@@ -85,6 +90,25 @@ export default function Todo({
         isDisabled={false}
         onClick={deleteTodo}
       />
+      <button
+        className="md:hidden p-1.5 m-1.5 md:p-3 md:m-3 bg-slate-900 text-white rounded-full hover:bg-slate-800"
+        onClick={onDoubleClick}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m4.5 12.75 6 6 9-13.5"
+          />
+        </svg>
+      </button>
     </div>
   );
 }
