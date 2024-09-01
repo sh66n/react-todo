@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const BASE_URL = "http://localhost:3000/api";
-
 export default function LoggedInAs({ user }) {
   return (
     <div className=" w-full h-28 flex items-center absolute top-12 font-circular">

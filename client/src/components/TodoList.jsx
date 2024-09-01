@@ -8,25 +8,30 @@ import Cookies from "universal-cookie";
 import LoggedInAs from "./LoggedInAs";
 import Navbar from "./Navbar";
 
-const BASE_URL = "http://localhost:3000/api";
-
 export default function TodoList() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
     const getTodoData = async () => {
-      const { data } = await axios.get(`${BASE_URL}/todos`, {
-        withCredentials: true,
-      });
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_BACKEND_BASEURL}/todos`,
+        {
+          withCredentials: true,
+        }
+      );
       setTodos(data);
     };
     getTodoData();
   }, []);
 
   const addTodo = async (newTodo) => {
-    const { data } = await axios.post(`${BASE_URL}/todos`, newTodo, {
-      withCredentials: true,
-    });
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_BACKEND_BASEURL}/todos`,
+      newTodo,
+      {
+        withCredentials: true,
+      }
+    );
     setTodos((prevTodos) => {
       return [...prevTodos, data];
     });
@@ -34,9 +39,12 @@ export default function TodoList() {
 
   const deleteTodo = async (id) => {
     try {
-      const { data } = await axios.delete(`${BASE_URL}/todos/${id}`, {
-        withCredentials: true,
-      });
+      const { data } = await axios.delete(
+        `${import.meta.env.VITE_BACKEND_BASEURL}/todos/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
     } catch (e) {
       console.log(e);
       return;
@@ -47,7 +55,10 @@ export default function TodoList() {
   };
 
   const editTodo = async (id, edits) => {
-    const { data } = await axios.patch(`${BASE_URL}/todos/${id}`, edits);
+    const { data } = await axios.patch(
+      `${import.meta.env.VITE_BACKEND_BASEURL}/todos/${id}`,
+      edits
+    );
     setTodos((prevTodos) => {
       return prevTodos.map((todo) => {
         if (todo._id === id) return data.updatedTodo;
@@ -64,9 +75,12 @@ export default function TodoList() {
       console.log(e);
       return;
     }
-    const { data } = await axios.patch(`${BASE_URL}/todos/${id}`, {
-      isCompleted: !todo.isCompleted,
-    });
+    const { data } = await axios.patch(
+      `${import.meta.env.VITE_BACKEND_BASEURL}/todos/${id}`,
+      {
+        isCompleted: !todo.isCompleted,
+      }
+    );
     setTodos((prevTodos) => {
       return prevTodos.map((todo) => {
         if (todo._id === id) return data.updatedTodo;
@@ -89,7 +103,7 @@ export default function TodoList() {
         navigate("/login");
       } else {
         const { data } = await axios.post(
-          `${BASE_URL}/check`,
+          `${import.meta.env.VITE_BACKEND_BASEURL}/check`,
           {},
           { withCredentials: true }
         );

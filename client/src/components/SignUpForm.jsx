@@ -3,8 +3,6 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = "http://localhost:3000/api";
-
 export default function SignUpForm() {
   const navigate = useNavigate();
   const [userCreationFailed, setUserCreationFailed] = useState(false);
@@ -16,9 +14,13 @@ export default function SignUpForm() {
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post(`${BASE_URL}/users`, data, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_BASEURL}/users`,
+        data,
+        {
+          withCredentials: true,
+        }
+      );
       if (res.data.message) {
         console.log(res.data.message);
         setUserCreationFailed(true);

@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Input from "./Input";
 
-const BASE_URL = "http://localhost:3000/api";
-
 export default function LoginForm() {
   const [logInFailed, setLogInFailed] = useState(false);
   const navigate = useNavigate();
@@ -17,9 +15,13 @@ export default function LoginForm() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post(`${BASE_URL}/login`, data, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_BASEURL}/login`,
+        data,
+        {
+          withCredentials: true,
+        }
+      );
       if (res) {
         if (res.data.token) {
           navigate("/todos");

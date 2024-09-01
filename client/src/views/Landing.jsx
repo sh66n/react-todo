@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import fancyImage from "../assets/img/landing.svg";
 import Navbar from "../components/Navbar";
 import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";

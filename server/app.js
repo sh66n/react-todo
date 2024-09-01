@@ -1,9 +1,11 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const port = 3000;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 mongoose
-  .connect("mongodb://127.0.0.1:27017/todolist")
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("database connected");
   })
@@ -47,7 +49,7 @@ const verifyToken = (req, res, next) => {
   // }
   const token = req.cookies.jwt;
   if (token) {
-    jwt.verify(token, "mysecret", async (err, decodedToken) => {
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
         console.log("Wrong cookie");
         res.json({ status: false });
@@ -74,7 +76,7 @@ const verifyToken = (req, res, next) => {
 app.get("/api/todos", async (req, res) => {
   const token = req.cookies.jwt;
   if (token) {
-    jwt.verify(token, "mysecret", async (err, decodedToken) => {
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
         console.log("Wrong cookie");
         res.json({ status: false });
@@ -122,7 +124,7 @@ app.post("/api/users", async (req, res) => {
         const salt = await bcrypt.genSalt(12);
         const hash = await bcrypt.hash(plainPassword, salt);
         const newUser = await User.create({ username, email, hash });
-        const token = jwt.sign({ id: newUser._id }, "mysecret", {
+        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
           expiresIn: 3 * 24 * 60 * 60,
         });
         res.cookie("jwt", token, {
@@ -180,7 +182,7 @@ app.post("/api/login", async (req, res) => {
   if (user) {
     const isAuthenticated = await bcrypt.compare(password, user.hash);
     if (isAuthenticated) {
-      const token = jwt.sign({ id: user._id }, "mysecret", {
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: 3 * 24 * 60 * 60,
       });
       res.cookie("jwt", token, {
