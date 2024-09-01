@@ -199,7 +199,7 @@ app.post("/api/login", async (req, res) => {
         httpOnly: false,
         maxAge: 3 * 24 * 60 * 60 * 1000,
         secure: true,
-        sameSite: "none",
+        sameSite: "strict",
       });
       res.status(200).json({ token });
     } else {
