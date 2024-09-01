@@ -58,7 +58,6 @@ const verifyToken = (req, res, next) => {
   //   return;
   // }
   const token = req.cookies.jwt;
-  console.log(req.cookies);
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
@@ -199,9 +198,10 @@ app.post("/api/login", async (req, res) => {
       res.cookie("jwt", token, {
         httpOnly: false,
         maxAge: 3 * 24 * 60 * 60 * 1000,
+        secure: true,
+        sameSite: "none",
       });
       res.status(200).json({ token });
-      console.log(res);
     } else {
       res.status(401).json({
         message: "incorrect email or password",
