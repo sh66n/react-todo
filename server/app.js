@@ -15,7 +15,7 @@ mongoose
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const corsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: [process.env.FRONTEND_URL],
   credentials: true,
   optionSuccessStatus: 200,
 };
