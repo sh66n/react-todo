@@ -22,6 +22,7 @@ export default function LoginForm() {
           withCredentials: true,
         }
       );
+      console.log(res);
       if (res) {
         if (res.data.token) {
           navigate("/todos");

@@ -130,6 +130,7 @@ app.post("/api/users", async (req, res) => {
         res.cookie("jwt", token, {
           httpOnly: false,
           maxAge: 3 * 24 * 60 * 60 * 1000,
+          sameSite: "none",
         });
         res.status(200).json(newUser);
       } else {
@@ -188,6 +189,7 @@ app.post("/api/login", async (req, res) => {
       res.cookie("jwt", token, {
         httpOnly: false,
         maxAge: 3 * 24 * 60 * 60 * 1000,
+        sameSite: "none",
       });
       res.status(200).json({ token });
     } else {
