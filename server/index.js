@@ -141,6 +141,9 @@ app.post("/api/users", async (req, res) => {
         res.cookie("jwt", token, {
           httpOnly: false,
           maxAge: 3 * 24 * 60 * 60 * 1000,
+          secure: true,
+          sameSite: "none",
+          domain: process.env.FRONTEND_URL,
         });
         res.status(200).json(newUser);
       } else {
