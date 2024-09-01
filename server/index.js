@@ -200,7 +200,11 @@ app.post("/api/login", async (req, res) => {
         expiresIn: 3 * 24 * 60 * 60,
       });
       res.cookie("jwt", token, {
+        httpOnly: false,
         maxAge: 3 * 24 * 60 * 60 * 1000,
+        secure: true,
+        sameSite: "none",
+        domain: process.env.FRONTEND_URL,
       });
       res.status(200).json({ token });
     } else {
