@@ -36,18 +36,29 @@ const verifyToken = (req, res, next) => {
   // const authHeader = req.headers.authorization;
   // if (authHeader) {
   //   const token = authHeader.split(" ")[1];
-  //   console.log(token);
-  //   jwt.verify(token, "mysecret", (err, payload) => {
+  //   jwt.verify(token, process.env.JWT_SECRET, async (err, payload) => {
   //     if (err) {
-  //       res.status(403).json("Token not valid!");
+  //       console.log("Wrong cookie");
+  //       res.json({ status: false });
+  //       return;
+  //     } else {
+  //       const currUser = await User.findById(decodedToken.id);
+  //       if (currUser) {
+  //         req.user = currUser;
+  //         next();
+  //       } else {
+  //         res.json({ status: false });
+  //         return;
+  //       }
   //     }
-  //     req.user = payload;
-  //     next();
   //   });
   // } else {
-  //   res.status(401).json("You are not authenticated!");
+  //   console.log("no cookie");
+  //   res.json({ status: false });
+  //   return;
   // }
   const token = req.cookies.jwt;
+  console.log(req.cookies);
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
@@ -130,7 +141,6 @@ app.post("/api/users", async (req, res) => {
         res.cookie("jwt", token, {
           httpOnly: false,
           maxAge: 3 * 24 * 60 * 60 * 1000,
-          sameSite: "none",
         });
         res.status(200).json(newUser);
       } else {
@@ -189,9 +199,9 @@ app.post("/api/login", async (req, res) => {
       res.cookie("jwt", token, {
         httpOnly: false,
         maxAge: 3 * 24 * 60 * 60 * 1000,
-        sameSite: "none",
       });
       res.status(200).json({ token });
+      console.log(res);
     } else {
       res.status(401).json({
         message: "incorrect email or password",

@@ -18,15 +18,10 @@ export default function LoginForm() {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_BASEURL}/login`,
         data,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
-      console.log(res);
-      if (res) {
-        if (res.data.token) {
-          navigate("/todos");
-        }
+      if (res.data.token) {
+        navigate("/todos");
       }
     } catch (e) {
       setLogInFailed(true);
