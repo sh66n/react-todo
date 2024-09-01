@@ -18,6 +18,7 @@ const corsOptions = {
   origin: [process.env.FRONTEND_URL],
   credentials: true,
   optionSuccessStatus: 200,
+  exposedHeaders: ["Set-cookie"],
 };
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -196,10 +197,10 @@ app.post("/api/login", async (req, res) => {
         expiresIn: 3 * 24 * 60 * 60,
       });
       res.cookie("jwt", token, {
-        httpOnly: false,
+        httpOnly: true,
         maxAge: 3 * 24 * 60 * 60 * 1000,
         secure: true,
-        sameSite: "strict",
+        sameSite: "none",
       });
       res.status(200).json({ token });
     } else {

@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Input from "./Input";
+import Cookies from "universal-cookie";
 
 export default function LoginForm() {
+  const cookie = new Cookies();
   const [logInFailed, setLogInFailed] = useState(false);
   const navigate = useNavigate();
   const {
@@ -20,6 +22,7 @@ export default function LoginForm() {
         data,
         { withCredentials: true }
       );
+      console.log(res.data.token);
       if (res.data.token) {
         navigate("/todos");
       }

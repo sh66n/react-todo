@@ -15,7 +15,8 @@ export default {
       mountain: "url(./src/assets/img/mountain.jpg)",
       cloudy: "url(./src/assets/img/cloudy-scenery.jpg)",
       pinky: "url(./src/assets/img/pinky.jpg)",
-      ambient: "url(./src/assets/img/ambient.jpg)",
+      ambient:
+        "url(https://drive.google.com/uc?export=view&id=1illtT4PM-qIwmcLMUGyxTVypaHj8HmVM)",
     },
   },
   plugins: [],

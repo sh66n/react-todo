@@ -99,6 +99,7 @@ export default function TodoList() {
   useEffect(() => {
     const verifyUser = async () => {
       if (!cookies.get("jwt")) {
+        console.log("no cookie found");
         //no cookie found
         navigate("/login");
       } else {
