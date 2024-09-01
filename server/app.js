@@ -115,17 +115,31 @@ app.post("/api/todos", verifyToken, async (req, res) => {
 app.post("/api/users", async (req, res) => {
   try {
     const { username, email, password: plainPassword } = req.body;
-    const salt = await bcrypt.genSalt(12);
-    const hash = await bcrypt.hash(plainPassword, salt);
-    const newUser = await User.create({ username, email, hash });
-    const token = jwt.sign({ id: newUser._id }, "mysecret", {
-      expiresIn: 3 * 24 * 60 * 60,
-    });
-    res.cookie("jwt", token, {
-      httpOnly: false,
-      maxAge: 3 * 24 * 60 * 60 * 1000,
-    });
-    res.status(200).json(newUser);
+    const emailExists = await User.find({ email });
+    const usernameExists = await User.find({ username });
+    if (!(emailExists.length > 0)) {
+      if (!(usernameExists.length > 0)) {
+        const salt = await bcrypt.genSalt(12);
+        const hash = await bcrypt.hash(plainPassword, salt);
+        const newUser = await User.create({ username, email, hash });
+        const token = jwt.sign({ id: newUser._id }, "mysecret", {
+          expiresIn: 3 * 24 * 60 * 60,
+        });
+        res.cookie("jwt", token, {
+          httpOnly: false,
+          maxAge: 3 * 24 * 60 * 60 * 1000,
+        });
+        res.status(200).json(newUser);
+      } else {
+        res.json({
+          message: "Username already in use",
+        });
+      }
+    } else {
+      res.json({
+        message: "Email already in use",
+      });
+    }
   } catch (error) {
     console.log(error);
     res.status(500);
@@ -175,10 +189,14 @@ app.post("/api/login", async (req, res) => {
       });
       res.status(200).json({ token });
     } else {
-      res.status(401).json("incorred email or password");
+      res.status(401).json({
+        message: "incorrect email or password",
+      });
     }
   } else {
-    res.status(400).json("incorred email or password");
+    res.status(400).json({
+      message: "incorrect email or password",
+    });
   }
 });
 

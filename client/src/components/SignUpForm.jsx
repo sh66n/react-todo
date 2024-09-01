@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,8 @@ const BASE_URL = "http://localhost:3000/api";
 
 export default function SignUpForm() {
   const navigate = useNavigate();
+  const [userCreationFailed, setUserCreationFailed] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -17,7 +19,12 @@ export default function SignUpForm() {
       const res = await axios.post(`${BASE_URL}/users`, data, {
         withCredentials: true,
       });
-      navigate("/todos");
+      if (res.data.message) {
+        console.log(res.data.message);
+        setUserCreationFailed(true);
+      } else {
+        navigate("/todos");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -62,6 +69,11 @@ export default function SignUpForm() {
             <span className="text-white">This field is required</span>
           )}
         </div>
+        {userCreationFailed && (
+          <span className="text-red-500 mb-3">
+            Validation failed. Please try again.
+          </span>
+        )}
         <span className="font-circular mb-2 text-white">
           Already a user? Login{" "}
           <a href="/login" className="text-cyan-400 hover:underline">

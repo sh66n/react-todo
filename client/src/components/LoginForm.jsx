@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,6 +7,7 @@ import Input from "./Input";
 const BASE_URL = "http://localhost:3000/api";
 
 export default function LoginForm() {
+  const [logInFailed, setLogInFailed] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -15,11 +16,17 @@ export default function LoginForm() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const res = await axios.post(`${BASE_URL}/login`, data, {
-      withCredentials: true,
-    });
-    if (res.data.token) {
-      navigate("/todos");
+    try {
+      const res = await axios.post(`${BASE_URL}/login`, data, {
+        withCredentials: true,
+      });
+      if (res) {
+        if (res.data.token) {
+          navigate("/todos");
+        }
+      }
+    } catch (e) {
+      setLogInFailed(true);
     }
   };
 
@@ -57,6 +64,9 @@ export default function LoginForm() {
             <span className="text-white">This field is required</span>
           )}
         </div>
+        {logInFailed && (
+          <span className="text-red-500 mb-3">Invalid email or password.</span>
+        )}
         <span className="font-circular mb-2 text-white">
           Don't have an account? Sign up{" "}
           <a href="/signup" className="text-cyan-400 hover:underline">
