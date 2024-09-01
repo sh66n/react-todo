@@ -24,7 +24,7 @@ MyList:
 
 Login/Signup:
 ![Login](https://drive.google.com/uc?export=view&id=1P9unMYx7M_s0RY5OvyHF5hdoR8Tlmhnb)
-![Signup](https://drive.google.com/uc?export=view&id=1mxAi6OvBS2XdqDmO3_Pd1MHD3QGLOwCf)
+![Signup](https://drive.google.com/uc?export=view&id=15yZP2o9UWfxFgel1wJXJNV1vF-nNcnE6)
 
 ## Usage <a name = "usage"></a>
 
