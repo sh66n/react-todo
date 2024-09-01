@@ -16,7 +16,7 @@ export default {
       cloudy: "url(./src/assets/img/cloudy-scenery.jpg)",
       pinky: "url(./src/assets/img/pinky.jpg)",
       ambient:
-        "url(https://drive.google.com/uc?export=view&id=1illtT4PM-qIwmcLMUGyxTVypaHj8HmVM)",
+        "url(https://raw.githubusercontent.com/sh66n/react-todo/main/client/src/assets/img/ambient.jpg)",
     },
   },
   plugins: [],
