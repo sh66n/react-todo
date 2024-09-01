@@ -25,10 +25,11 @@ export default function Landing() {
         <Navbar isLoggedIn={isLoggedIn} logOut={logOut} />
         <div className="h-screen w-screen flex flex-col items-center justify-center font-circular p-4">
           <h1 className="text-5xl sm:text-7xl md:text-9xl font-extrabold text-white">
-            DoIt List{" "}
+            GetItDone{" "}
           </h1>
           <h2 className="md:text-xl md:font-bold text-white text-center ">
-            Struggling to keep up with work? We're here to help!
+            Struggling to keep up with work? Organize it with our custom
+            TodoList application!
           </h2>
           <button className="p-4 m-4 bg-fuchsia-900 text-white transition ease-in-out hover:-translate-y-2 rounded-full duration-300 w-fit">
             <Link to={"/todos"}>Get Started</Link>

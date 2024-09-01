@@ -11,7 +11,7 @@ export default function Navbar({ isLoggedIn, logOut }) {
       <div className="flex">
         <div className="font-circular text-4xl text-white">
           <div className="m-4 md:ml-20">
-            <Link to={"/"}>DoIt List</Link>
+            <Link to={"/"}>GetItDone</Link>
           </div>
         </div>
         <div className="ml-auto md:mr-20 flex">
