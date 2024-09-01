@@ -15,10 +15,12 @@ mongoose
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const corsOptions = {
-  origin: [process.env.FRONTEND_URL],
-  credentials: true,
-  optionSuccessStatus: 200,
-  exposedHeaders: ["Set-cookie"],
+  origin: process.env.FRONTEND_URL, // No need for the array if you're only using one origin
+  credentials: true, // This allows cookies to be sent with requests
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Specify allowed methods
+  allowedHeaders: ["Content-Type", "Authorization"], // Include allowed headers
+  exposedHeaders: ["Set-Cookie"], // Corrected capitalization to "Set-Cookie"
+  optionsSuccessStatus: 200, // Correct capitalization
 };
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -197,10 +199,11 @@ app.post("/api/login", async (req, res) => {
         expiresIn: 3 * 24 * 60 * 60,
       });
       res.cookie("jwt", token, {
-        httpOnly: true,
+        domain: process.env.FRONTEND_URL,
+        httpOnly: false,
         maxAge: 3 * 24 * 60 * 60 * 1000,
-        secure: true,
         sameSite: "none",
+        secure: "true",
       });
       res.status(200).json({ token });
     } else {
