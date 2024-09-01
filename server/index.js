@@ -18,7 +18,6 @@ const corsOptions = {
   origin: [process.env.FRONTEND_URL],
   credentials: true,
   optionsSuccessStatus: 200,
-  exposedHeaders: ["Set-Cookie"],
 };
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -204,7 +203,6 @@ app.post("/api/login", async (req, res) => {
         maxAge: 3 * 24 * 60 * 60 * 1000,
         secure: true,
         sameSite: "none",
-        domain: process.env.FRONTEND_URL,
       });
       res.status(200).json({ token });
     } else {
