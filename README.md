@@ -1,46 +1,31 @@
 # GetItDone
 
-## Table of Contents
-
-- [About](#about)
-- [Getting Started](#getting_started)
-- [Usage](#usage)
-- [Contributing](../CONTRIBUTING.md)
-
-## About <a name = "about"></a>
-
 A simple react todo application
 
 ## Getting Started <a name = "getting_started"></a>
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-What things you need to install the software and how to install them.
-
-```
-Give examples
-```
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running.
-
-Say what the step will be
+Install all libraries required to get the environment running.
 
 ```
-Give the example
+npm install
 ```
 
-And repeat
+### Screenshots
 
-```
-until finished
-```
+Landing:
+![Landing](https://drive.google.com/uc?export=view&id=1_kjUyELm5BC1QKdUt30ztIBvRCahKde9)
 
-End with an example of getting some data out of the system or using it for a little demo.
+MyList:
+![Landing](https://drive.google.com/uc?export=view&id=1qAkktxtJURZ-MtbTdyygh3Up41jC3Oc4)
+
+Login/Signup:
+![Login](https://drive.google.com/uc?export=view&id=1P9unMYx7M_s0RY5OvyHF5hdoR8Tlmhnb)
+![Signup](https://drive.google.com/uc?export=view&id=1mxAi6OvBS2XdqDmO3_Pd1MHD3QGLOwCf)
 
 ## Usage <a name = "usage"></a>
 
-Add notes about how to use the system.
+Manage your daily work!
