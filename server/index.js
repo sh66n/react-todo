@@ -84,31 +84,31 @@ const verifyToken = (req, res, next) => {
 };
 
 //server side routing
-app.get("/api/todos", async (req, res) => {
-  const token = req.cookies.jwt;
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
-      if (err) {
-        console.log("Wrong cookie");
-        res.json({ status: false });
-        return;
-      } else {
-        const currUser = await User.findById(decodedToken.id);
-        if (currUser) {
-          req.user = currUser;
-          const todos = await Todo.find({ userId: req.user._id });
-          res.send(todos);
-        } else {
-          res.json({ status: false });
-          return;
-        }
-      }
-    });
-  } else {
-    console.log("no cookie");
-    res.json({ status: false });
-    return;
-  }
+app.get("/api/todos", verifyToken, async (req, res) => {
+  // const token = req.cookies.jwt;
+  // if (token) {
+  //   jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
+  //     if (err) {
+  //       console.log("Wrong cookie");
+  //       res.json({ status: false });
+  //       return;
+  //     } else {
+  //       const currUser = await User.findById(decodedToken.id);
+  //       if (currUser) {
+  //         req.user = currUser;
+  //       } else {
+  //         res.json({ status: false });
+  //         return;
+  //       }
+  //     }
+  //   });
+  // } else {
+  //   console.log("no cookie");
+  //   res.json({ status: false });
+  //   return;
+  // }
+  const todos = await Todo.find({ userId: req.user._id });
+  res.send(todos);
 });
 
 app.get("/api/users/:id", verifyToken, async (req, res) => {
