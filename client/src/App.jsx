@@ -18,7 +18,7 @@ function App() {
     authName: "jwt",
     authType: "cookie",
     cookieDomain: window.location.hostname,
-    cookieSecure: window.location.protocol === "https:",
+    cookieSecure: true,
   });
 
   return (
