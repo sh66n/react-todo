@@ -198,12 +198,12 @@ app.post("/api/login", async (req, res) => {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: 3 * 24 * 60 * 60,
       });
-      res.cookie("jwt", token, {
-        httpOnly: false,
-        maxAge: 3 * 24 * 60 * 60 * 1000,
-        secure: true,
-        sameSite: "none",
-      });
+      // res.cookie("jwt", token, {
+      //   httpOnly: false,
+      //   maxAge: 3 * 24 * 60 * 60 * 1000,
+      //   secure: true,
+      //   sameSite: "none",
+      // });
       res.status(200).json({ token });
     } else {
       res.status(401).json({

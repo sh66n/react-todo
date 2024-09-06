@@ -7,6 +7,8 @@ import { PrimaryButton } from "../components/Button";
 import Cookies from "universal-cookie";
 import LoggedInAs from "./LoggedInAs";
 import Navbar from "./Navbar";
+import useSignOut from "react-auth-kit/hooks/useSignOut";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 export default function TodoList() {
   const [todos, setTodos] = useState([]);
@@ -96,6 +98,9 @@ export default function TodoList() {
   const [userExists, setUserExists] = useState(false);
   const [user, setUser] = useState(null);
 
+  //auth
+  const signOut = useSignOut();
+
   useEffect(() => {
     const verifyUser = async () => {
       if (!cookies.get("jwt")) {
@@ -121,14 +126,9 @@ export default function TodoList() {
     verifyUser();
   }, [cookies, navigate]);
 
-  const logOut = () => {
-    cookies.remove("jwt");
-    navigate("/login");
-  };
-
   return (
     <div>
-      <Navbar isLoggedIn={userExists} logOut={logOut} />
+      <Navbar isLoggedIn={userExists} logOut={signOut} />
       <div className="flex flex-col items-center justify-center h-screen z-3">
         {/* {userExists && <LoggedInAs user={user} />} */}
         <div className="flex flex-col items-center justify-center">

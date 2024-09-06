@@ -3,25 +3,28 @@ import Navbar from "../components/Navbar";
 import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
 
+import useSignOut from "react-auth-kit/hooks/useSignOut";
+
 export default function Landing() {
   const cookie = new Cookies();
-  const logOut = () => {
-    cookie.remove("jwt");
-    setIsLoggedIn(false);
-  };
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     const verifyUser = () => {
       if (cookie.get("jwt")) {
         setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
       }
     };
     verifyUser();
   }, [cookie]);
+
+  const signOut = useSignOut();
+
   return (
     <div className="overflow-x-hidden">
       <div className="h-screen w-screen bg-ambient bg-cover overflow-x-hidden">
-        <Navbar isLoggedIn={isLoggedIn} logOut={logOut} />
+        <Navbar isLoggedIn={isLoggedIn} logOut={signOut} />
         <div className="h-screen w-screen flex flex-col items-center justify-center font-circular p-4">
           <h1 className="text-5xl sm:text-7xl md:text-9xl font-extrabold text-white">
             GetItDone{" "}

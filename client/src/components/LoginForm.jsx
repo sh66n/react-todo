@@ -5,6 +5,8 @@ import axios from "axios";
 import Input from "./Input";
 import Cookies from "universal-cookie";
 
+import useSignIn from "react-auth-kit/hooks/useSignIn";
+
 export default function LoginForm() {
   const cookie = new Cookies();
   const [logInFailed, setLogInFailed] = useState(false);
@@ -15,15 +17,26 @@ export default function LoginForm() {
     formState: { errors },
   } = useForm();
 
+  const signIn = useSignIn();
+
   const onSubmit = async (data) => {
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_BASEURL}/login`,
-        data,
-        { withCredentials: true }
+        data
       );
-      if (res.data.token) {
+
+      if (
+        signIn({
+          auth: {
+            token: res.data.token,
+            type: "Bearer",
+          },
+        })
+      ) {
         navigate("/todos");
+      } else {
+        setLogInFailed(true);
       }
     } catch (e) {
       setLogInFailed(true);
