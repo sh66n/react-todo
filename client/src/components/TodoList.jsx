@@ -21,7 +21,9 @@ export default function TodoList() {
           withCredentials: true,
         }
       );
-      setTodos(data);
+      if (data.status.length) {
+        setTodos(data);
+      }
     };
     getTodoData();
   }, []);
