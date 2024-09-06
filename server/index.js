@@ -57,8 +57,8 @@ const verifyToken = (req, res, next) => {
   //   res.json({ status: false });
   //   return;
   // }
-  console.log(typeof req.cookies);
-  const token = req.cookies.jwt;
+  console.log(req.cookies.jwt);
+  const token = req.cookies["jwt"];
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
