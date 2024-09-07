@@ -100,7 +100,7 @@ app.get("/api/todos", verifyToken, async (req, res) => {
   //   res.json({ status: false });
   //   return;
   // }
-  const todos = await Todo.find({ user: req.user._id });
+  const todos = await Todo.find({ user: req.user.id });
   res.send(todos);
 });
 
@@ -113,7 +113,8 @@ app.post("/api/check", verifyToken, (req, res) => {
 });
 
 app.post("/api/todos", verifyToken, async (req, res) => {
-  req.body.user = req.user;
+  const owner = await User.findById(req.user.id);
+  req.body.user = owner;
   const newTodo = await Todo.create(req.body);
   res.send(newTodo);
 });
@@ -199,8 +200,8 @@ app.post("/api/login", async (req, res) => {
       // });
       res.status(200).json({
         id: user._id,
-        email: user.email,
         username: user.username,
+        email: user.email,
         token,
       });
     } else {

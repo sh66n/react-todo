@@ -6,6 +6,7 @@ import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 export default function TodoForm({ addTodo }) {
   const auth = useAuthUser();
+  console.log(auth);
 
   const {
     register,
