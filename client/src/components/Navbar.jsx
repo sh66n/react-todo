@@ -112,8 +112,8 @@ export default function Navbar({ isLoggedIn }) {
                 <Link
                   onClick={() => {
                     signOut();
-                    navigate("/login");
                   }}
+                  to={"/login"}
                 >
                   Logout
                 </Link>
