@@ -25,7 +25,9 @@ export default function LoginForm() {
         `${import.meta.env.VITE_BACKEND_BASEURL}/login`,
         data,
         {
-          withCredentials: true,
+          headers: {
+            Authorization: "Bearer " + cookie.get("jwt"),
+          },
         }
       );
 
