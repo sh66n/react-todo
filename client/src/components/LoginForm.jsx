@@ -38,6 +38,7 @@ export default function LoginForm() {
             type: "Bearer",
           },
           userState: {
+            id: res.data.id,
             username: res.data.username,
             email: res.data.email,
             accessToken: res.data.token,

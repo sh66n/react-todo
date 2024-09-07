@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { PrimaryButton } from "./Button";
 
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+
 export default function TodoForm({ addTodo }) {
+  const auth = useAuthUser();
+
   const {
     register,
     handleSubmit,
