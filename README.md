@@ -1,6 +1,6 @@
-# GetItDone
+# GetitDone
 
-A simple react todo application
+A simple react todo application with a clean UI.
 
 ## Getting Started <a name = "getting_started"></a>
 
