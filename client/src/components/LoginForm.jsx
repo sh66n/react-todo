@@ -23,7 +23,10 @@ export default function LoginForm() {
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_BASEURL}/login`,
-        data
+        data,
+        {
+          withCredentials: true,
+        }
       );
 
       if (

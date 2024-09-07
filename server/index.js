@@ -57,8 +57,7 @@ const verifyToken = (req, res, next) => {
   //   res.json({ status: false });
   //   return;
   // }
-  console.log(req.cookies.jwt);
-  const token = req.cookies["jwt"];
+  const token = req.cookies.jwt;
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
@@ -143,7 +142,6 @@ app.post("/api/users", async (req, res) => {
           maxAge: 3 * 24 * 60 * 60 * 1000,
           secure: true,
           sameSite: "none",
-          domain: process.env.FRONTEND_URL,
         });
         res.status(200).json(newUser);
       } else {
