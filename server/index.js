@@ -33,11 +33,27 @@ app.use(cookieParser());
 
 //middleware
 const verifyToken = (req, res, next) => {
-  // const authHeader = req.headers.authorization;
-  // console.log(authHeader);
-  // if (authHeader) {
-  //   const token = authHeader.split(" ")[1];
-  //   jwt.verify(token, process.env.JWT_SECRET, async (err, payload) => {
+  const authHeader = req.headers.authorization;
+  if (authHeader) {
+    const token = authHeader.split(" ")[1];
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) {
+        return res.status(403).json({
+          message: "Invalid token",
+        });
+      } else {
+        req.user = user;
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({
+      message: "No header",
+    });
+  }
+  // const token = req.cookies.jwt;
+  // if (token) {
+  //   jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
   //     if (err) {
   //       console.log("Wrong cookie");
   //       res.json({ status: false });
@@ -58,29 +74,6 @@ const verifyToken = (req, res, next) => {
   //   res.json({ status: false });
   //   return;
   // }
-  const token = req.cookies.jwt;
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
-      if (err) {
-        console.log("Wrong cookie");
-        res.json({ status: false });
-        return;
-      } else {
-        const currUser = await User.findById(decodedToken.id);
-        if (currUser) {
-          req.user = currUser;
-          next();
-        } else {
-          res.json({ status: false });
-          return;
-        }
-      }
-    });
-  } else {
-    console.log("no cookie");
-    res.json({ status: false });
-    return;
-  }
 };
 
 //server side routing
@@ -204,7 +197,11 @@ app.post("/api/login", async (req, res) => {
       //   secure: true,
       //   sameSite: "none",
       // });
-      res.status(200).json({ token });
+      res.status(200).json({
+        email: user.email,
+        username: user.username,
+        token,
+      });
     } else {
       res.status(401).json({
         message: "incorrect email or password",

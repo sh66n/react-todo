@@ -12,16 +12,19 @@ import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 export default function TodoList() {
   const [todos, setTodos] = useState([]);
+  const auth = useAuthUser();
 
   useEffect(() => {
     const getTodoData = async () => {
       const { data } = await axios.get(
         `${import.meta.env.VITE_BACKEND_BASEURL}/todos`,
         {
-          withCredentials: true,
+          headers: {
+            Authorization: "Bearer " + auth.accessToken,
+          },
         }
       );
-      if (data.status.length) {
+      if (data.length) {
         setTodos(data);
       }
     };
@@ -33,7 +36,9 @@ export default function TodoList() {
       `${import.meta.env.VITE_BACKEND_BASEURL}/todos`,
       newTodo,
       {
-        withCredentials: true,
+        headers: {
+          Authorization: "Bearer " + auth.accessToken,
+        },
       }
     );
     setTodos((prevTodos) => {
@@ -46,7 +51,9 @@ export default function TodoList() {
       const { data } = await axios.delete(
         `${import.meta.env.VITE_BACKEND_BASEURL}/todos/${id}`,
         {
-          withCredentials: true,
+          headers: {
+            Authorization: "Bearer " + auth.accessToken,
+          },
         }
       );
     } catch (e) {
@@ -113,7 +120,7 @@ export default function TodoList() {
         const { data } = await axios.post(
           `${import.meta.env.VITE_BACKEND_BASEURL}/check`,
           {},
-          { withCredentials: true }
+          { headers: { Authorization: "Bearer " + auth.accessToken } }
         );
         if (!data) {
           //cookie exists, but is not the correct
@@ -135,7 +142,7 @@ export default function TodoList() {
         {/* {userExists && <LoggedInAs user={user} />} */}
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-xl sm:text-3xl md:text-5xl font-bold mb-5 text-white font-circular">
-            <span className="text-blue-400">{user}</span>'s List
+            <span className="text-blue-400">{auth.username}</span>'s List
           </h1>
           <TodoForm addTodo={addTodo} />
           {todos.map((todo) => (

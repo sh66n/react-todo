@@ -37,6 +37,11 @@ export default function LoginForm() {
             token: res.data.token,
             type: "Bearer",
           },
+          userState: {
+            username: res.data.username,
+            email: res.data.email,
+            accessToken: res.data.token,
+          },
         })
       ) {
         navigate("/todos");
