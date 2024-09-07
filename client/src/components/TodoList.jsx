@@ -137,7 +137,13 @@ export default function TodoList() {
 
   return (
     <div>
-      <Navbar isLoggedIn={userExists} logOut={signOut} />
+      <Navbar
+        isLoggedIn={userExists}
+        logOut={() => {
+          signOut();
+          navigate("/login");
+        }}
+      />
       <div className="flex flex-col items-center justify-center h-screen z-3">
         {/* {userExists && <LoggedInAs user={user} />} */}
         <div className="flex flex-col items-center justify-center">
