@@ -27,7 +27,7 @@ export default function Landing() {
         <Navbar isLoggedIn={isLoggedIn} />
         <div className="h-screen w-screen flex flex-col items-center justify-center font-circular p-4">
           <h1 className="text-5xl sm:text-7xl md:text-9xl font-extrabold text-white">
-            GetItDone{" "}
+            GetitDone{" "}
           </h1>
           <h2 className="md:text-xl md:font-bold text-white text-center ">
             Struggling to keep up with work? Organize it with our custom

@@ -16,7 +16,7 @@ export default function Navbar({ isLoggedIn }) {
       <div className="flex">
         <div className="font-circular text-4xl text-white">
           <div className="m-4 md:ml-20">
-            <Link to={"/"}>GetItDone</Link>
+            <Link to={"/"}>GetitDone</Link>
           </div>
         </div>
         <div className="ml-auto md:mr-20 flex">

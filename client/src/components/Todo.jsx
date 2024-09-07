@@ -15,6 +15,7 @@ export default function Todo({
   const toggleView = () => {
     setIsEditing((currState) => !currState);
   };
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div

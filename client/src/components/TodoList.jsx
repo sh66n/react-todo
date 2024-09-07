@@ -13,20 +13,25 @@ import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 export default function TodoList() {
   const [todos, setTodos] = useState([]);
   const auth = useAuthUser();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getTodoData = async () => {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_BACKEND_BASEURL}/todos`,
-        {
-          headers: {
-            Authorization: "Bearer " + auth.accessToken,
-          },
-        }
-      );
-      if (data.length) {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_BACKEND_BASEURL}/todos`,
+          {
+            headers: {
+              Authorization: "Bearer " + auth.accessToken,
+            },
+          }
+        );
         setTodos(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      } finally {
         setIsLoading(false);
       }
     };
@@ -81,25 +86,35 @@ export default function TodoList() {
   };
 
   const markAsDone = async (id) => {
-    let todo;
-    try {
-      todo = todos.find((todo) => todo._id === id);
-    } catch (e) {
-      console.log(e);
-      return;
-    }
-    const { data } = await axios.patch(
-      `${import.meta.env.VITE_BACKEND_BASEURL}/todos/${id}`,
-      {
-        isCompleted: !todo.isCompleted,
+    const todo = todos.find((todo) => todo._id === id);
+    if (todo) {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.patch(
+          `${import.meta.env.VITE_BACKEND_BASEURL}/todos/${id}`,
+          {
+            isCompleted: !todo.isCompleted,
+          }
+        );
+        setTodos((prevTodos) => {
+          return prevTodos.map((todo) => {
+            if (todo._id === id) return data.updatedTodo;
+            else return todo;
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
       }
-    );
-    setTodos((prevTodos) => {
-      return prevTodos.map((todo) => {
-        if (todo._id === id) return data.updatedTodo;
-        else return todo;
-      });
-    });
+    }
+    // let todo;
+    // try {
+    //   todo = todos.find((todo) => todo._id === id);
+    // } catch (e) {
+    //   console.log(e);
+    //   return;
+    // }
   };
 
   //cookie management
@@ -147,6 +162,11 @@ export default function TodoList() {
             <span className="text-blue-400">{auth.username}</span>'s List
           </h1>
           <TodoForm addTodo={addTodo} />
+          {todos.length === 0 && (
+            <span className="text-white">
+              No todos yet. What are you waiting for?
+            </span>
+          )}
           {isLoading ? (
             <div role="status">
               <svg
