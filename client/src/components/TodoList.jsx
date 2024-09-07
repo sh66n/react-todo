@@ -107,8 +107,8 @@ export default function TodoList() {
   const [userExists, setUserExists] = useState(false);
   const [user, setUser] = useState(null);
 
-  //auth
-  const signOut = useSignOut();
+  // //auth
+  // const signOut = useSignOut();
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -137,13 +137,7 @@ export default function TodoList() {
 
   return (
     <div>
-      <Navbar
-        isLoggedIn={userExists}
-        logOut={() => {
-          signOut();
-          navigate("/login");
-        }}
-      />
+      <Navbar isLoggedIn={userExists} />
       <div className="flex flex-col items-center justify-center h-screen z-3">
         {/* {userExists && <LoggedInAs user={user} />} */}
         <div className="flex flex-col items-center justify-center">

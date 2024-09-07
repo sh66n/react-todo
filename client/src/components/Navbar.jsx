@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import useSignOut from "react-auth-kit/hooks/useSignOut";
+import { useNavigate } from "react-router-dom";
 
-export default function Navbar({ isLoggedIn, logOut }) {
+export default function Navbar({ isLoggedIn }) {
+  const signOut = useSignOut();
+  const navigate = useNavigate();
+
   const [isToggled, setIsToggled] = useState(false);
   const toggleMenu = () => {
     setIsToggled((currState) => !currState);
@@ -27,7 +32,10 @@ export default function Navbar({ isLoggedIn, logOut }) {
             <div className="hidden md:flex md:m-4 md:text-2xl font-circular flex items-center text-white">
               <Link
                 className="opacity-100 hover:opacity-50 ease-in-out"
-                onClick={logOut}
+                onClick={() => {
+                  signOut();
+                }}
+                to={"/login"}
               >
                 Logout
               </Link>
@@ -101,7 +109,14 @@ export default function Navbar({ isLoggedIn, logOut }) {
             </li>
             {isLoggedIn ? (
               <li className="my-2">
-                <Link onClick={logOut}>Logout</Link>
+                <Link
+                  onClick={() => {
+                    signOut();
+                    navigate("/login");
+                  }}
+                >
+                  Logout
+                </Link>
               </li>
             ) : (
               <span>

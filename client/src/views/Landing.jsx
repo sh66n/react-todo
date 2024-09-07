@@ -24,7 +24,7 @@ export default function Landing() {
   return (
     <div className="overflow-x-hidden">
       <div className="h-screen w-screen bg-ambient bg-cover overflow-x-hidden">
-        <Navbar isLoggedIn={isLoggedIn} logOut={signOut} />
+        <Navbar isLoggedIn={isLoggedIn} />
         <div className="h-screen w-screen flex flex-col items-center justify-center font-circular p-4">
           <h1 className="text-5xl sm:text-7xl md:text-9xl font-extrabold text-white">
             GetItDone{" "}
