@@ -39,22 +39,30 @@ export default function TodoList() {
   }, []);
 
   const addTodo = async (newTodo) => {
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_BACKEND_BASEURL}/todos`,
-      newTodo,
-      {
-        headers: {
-          Authorization: "Bearer " + auth.accessToken,
-        },
-      }
-    );
-    setTodos((prevTodos) => {
-      return [...prevTodos, data];
-    });
+    try {
+      setIsLoading(true);
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BACKEND_BASEURL}/todos`,
+        newTodo,
+        {
+          headers: {
+            Authorization: "Bearer " + auth.accessToken,
+          },
+        }
+      );
+      setTodos((prevTodos) => {
+        return [...prevTodos, data];
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const deleteTodo = async (id) => {
     try {
+      setIsLoading(true);
       const { data } = await axios.delete(
         `${import.meta.env.VITE_BACKEND_BASEURL}/todos/${id}`,
         {
@@ -63,26 +71,34 @@ export default function TodoList() {
           },
         }
       );
+      setTodos((prevTodos) => {
+        return prevTodos.filter((todo) => todo._id !== id);
+      });
     } catch (e) {
       console.log(e);
-      return;
+    } finally {
+      setIsLoading(false);
     }
-    setTodos((prevTodos) => {
-      return prevTodos.filter((todo) => todo._id !== id);
-    });
   };
 
   const editTodo = async (id, edits) => {
-    const { data } = await axios.patch(
-      `${import.meta.env.VITE_BACKEND_BASEURL}/todos/${id}`,
-      edits
-    );
-    setTodos((prevTodos) => {
-      return prevTodos.map((todo) => {
-        if (todo._id === id) return data.updatedTodo;
-        else return todo;
+    try {
+      setIsLoading(true);
+      const { data } = await axios.patch(
+        `${import.meta.env.VITE_BACKEND_BASEURL}/todos/${id}`,
+        edits
+      );
+      setTodos((prevTodos) => {
+        return prevTodos.map((todo) => {
+          if (todo._id === id) return data.updatedTodo;
+          else return todo;
+        });
       });
-    });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const markAsDone = async (id) => {
